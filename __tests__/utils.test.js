@@ -1,6 +1,6 @@
 /* make sure you write your tests for your utils functions in here :eyes: */
 
-const { prepareRidesData } = require('../db/seed');
+const { prepareRidesData,arrangeRidesData } = require('../db/seed');
 
 describe('prepareRidesData()', () => {
     const parks = [
@@ -147,3 +147,76 @@ describe('prepareRidesData()', () => {
         expect(parks).toEqual(expected);
     });
 });
+
+describe('arrangeRidesData()', () => {
+    test('empty rides array', () => {
+        const rides = [];
+
+        const output = arrangeRidesData(rides);
+
+        const expected = [];
+
+        expect(output).toEqual(expected);
+    });
+
+    test('>1 rides item', () => {
+        const rides = [
+            {
+                ride_name: 'Colossus',
+                year_opened: 2002,
+                park_id: 1,
+                votes: 5,
+            },
+            {
+                ride_name: 'Nemesis',
+                year_opened: 1994,
+                park_id: 2,
+                votes: 5,
+              }
+        ];
+
+        const output = arrangeRidesData(rides);
+
+        const expected = [['Colossus', 2002, 5, 1], ['Nemesis', 1994, 5, 2]];
+
+        expect(output).toEqual(expected);
+    });
+
+    test('input not mutated', () => {
+        const rides = [
+            {
+                ride_name: 'Colossus',
+                year_opened: 2002,
+                park_id: 1,
+                votes: 5,
+            },
+            {
+                ride_name: 'Nemesis',
+                year_opened: 1994,
+                park_id: 2,
+                votes: 5,
+              }
+        ];
+
+        const output = arrangeRidesData(rides);
+
+        const expected = [
+            {
+                ride_name: 'Colossus',
+                year_opened: 2002,
+                park_id: 1,
+                votes: 5,
+            },
+            {
+                ride_name: 'Nemesis',
+                year_opened: 1994,
+                park_id: 2,
+                votes: 5,
+              }
+        ];
+
+        expect(rides).toEqual(expected);
+        expect(output).not.toBe(rides);
+    });
+});
+

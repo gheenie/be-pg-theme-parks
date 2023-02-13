@@ -26,6 +26,10 @@ function seed() {
     })
     .then(() => {
       return insertParks();
+    }).then(insertedParks => {
+      const lookedUpRides = prepareRidesData(rides, insertedParks);
+
+      return insertRides(lookedUpRides);
     });
 }
 
@@ -87,4 +91,12 @@ function prepareRidesData(rides, parks) {
   });
 }
 
-module.exports = { seed, prepareRidesData };
+function arrangeRidesData(ridesData) {
+  return ridesData.map(ride => [ride.ride_name, ride.year_opened, ride.votes, ride.park_id]);
+}
+
+function insertRides(lookedUpRides) {
+  ;
+}
+
+module.exports = { seed, prepareRidesData, arrangeRidesData };
