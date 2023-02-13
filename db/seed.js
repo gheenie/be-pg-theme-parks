@@ -96,7 +96,15 @@ function arrangeRidesData(ridesData) {
 }
 
 function insertRides(lookedUpRides) {
-  ;
+  const insertRidesStr = format(
+    `INSERT INTO parks (ride_name, year_opened, votes, park_id)
+    VALUES %L
+    RETURNING *;`,
+    arrangeRidesData(lookedUpRides)
+  );
+
+  return db.query(insertRidesStr)
+  .then(insertRidesResult => insertRidesResult.rows);
 }
 
 module.exports = { seed, prepareRidesData, arrangeRidesData };
