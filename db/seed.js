@@ -31,26 +31,26 @@ function seed() {
 
 function createParks() {
   /* Create your parks table in the query below */
-  return db.query(`
-    CREATE TABLE parks (
+  return db.query(
+    `CREATE TABLE parks (
       park_id SERIAL PRIMARY KEY,
       park_name VARCHAR(50) NOT NULL,
       year_opened INT NOT NULL,
       annual_attendance INT NOT NULL
-    );
-  `);
+    );`
+  );
 }
 
 function createRides() {
-  return db.query(`
-    CREATE TABLE rides (
+  return db.query(
+    `CREATE TABLE rides (
       ride_id SERIAL PRIMARY KEY,
       ride_name VARCHAR(50) NOT NULL,
       year_opened INT NOT NULL,
       votes INT NOT NULL,
       park_id INT REFERENCES parks(park_id) ON DELETE SET NULL
-    );
-  `);
+    );`
+  );
 }
 
 function arrangeParksData(parksData) {
@@ -58,11 +58,12 @@ function arrangeParksData(parksData) {
 }
 
 function insertParks() {
-  const insertParksStr = format(`
-    INSERT INTO parks (park_name, year_opened, annual_attendance)
+  const insertParksStr = format(
+    `INSERT INTO parks (park_name, year_opened, annual_attendance)
     VALUES %L
-    RETURNING *;
-  `, arrangeParksData(parks));
+    RETURNING *;`,
+    arrangeParksData(parks)
+  );
 
   return db.query(insertParksStr)
   .then(insertParksResult => {
