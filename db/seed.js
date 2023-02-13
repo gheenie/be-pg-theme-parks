@@ -66,9 +66,7 @@ function insertParks() {
   );
 
   return db.query(insertParksStr)
-  .then(insertParksResult => {
-    //console.log(insertParksResult.rows);
-  });
+  .then(insertParksResult => insertParksResult.rows);
 }
 
 module.exports = { seed };
