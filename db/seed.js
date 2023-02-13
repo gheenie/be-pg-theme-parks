@@ -19,6 +19,9 @@ function seed() {
     })
     .then(() => {
       return createParks();
+    })
+    .then(() => {
+      return createRides();
     });
 }
 
@@ -35,7 +38,15 @@ function createParks() {
 }
 
 function createRides() {
-  return db.query();
+  return db.query(`
+    CREATE TABLE rides (
+      ride_id SERIAL PRIMARY KEY,
+      ride_name VARCHAR(50) NOT NULL,
+      year_opened INT NOT NULL,
+      votes INT NOT NULL,
+      park_id INT REFERENCES parks(park_id) ON DELETE SET NULL
+    );
+  `);
 }
 
 module.exports = { seed };
