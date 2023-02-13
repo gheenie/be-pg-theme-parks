@@ -69,4 +69,22 @@ function insertParks() {
   .then(insertParksResult => insertParksResult.rows);
 }
 
-module.exports = { seed };
+function prepareRidesData(rides, parks) {
+  if (rides.length === 0) return [];
+
+  rides = JSON.parse( JSON.stringify(rides) );
+  parks = JSON.parse( JSON.stringify(parks) );
+
+  const parksLookup = {};
+  parks.forEach(park => parksLookup[park.park_name] = park.park_id);
+
+  return rides.map(ride => {
+    ride.park_id = parksLookup[ride.park_name];
+    
+    delete ride.park_name;
+    
+    return ride;
+  });
+}
+
+module.exports = { seed, prepareRidesData };
