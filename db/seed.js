@@ -1,6 +1,7 @@
 const { parks, rides, stalls } = require('./data/index.js');
 
 const db = require('./connection');
+const format = require('pg-format');
 
 function seed() {
   return db
@@ -22,6 +23,9 @@ function seed() {
     })
     .then(() => {
       return createRides();
+    })
+    .then(() => {
+      return insertParks();
     });
 }
 
@@ -47,6 +51,23 @@ function createRides() {
       park_id INT REFERENCES parks(park_id) ON DELETE SET NULL
     );
   `);
+}
+
+function arrangeParksData(parksData) {
+  return parksData.map(park => [park.park_name, park.year_opened, park.annual_attendance]);
+}
+
+function insertParks() {
+  const insertParksStr = format(`
+    INSERT INTO parks (park_name, year_opened, annual_attendance)
+    VALUES %L
+    RETURNING *;
+  `, arrangeParksData(parks));
+
+  return db.query(insertParksStr)
+  .then(insertParksResult => {
+    //console.log(insertParksResult.rows);
+  });
 }
 
 module.exports = { seed };
