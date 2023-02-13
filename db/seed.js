@@ -97,7 +97,7 @@ function arrangeRidesData(ridesData) {
 
 function insertRides(lookedUpRides) {
   const insertRidesStr = format(
-    `INSERT INTO parks (ride_name, year_opened, votes, park_id)
+    `INSERT INTO rides (ride_name, year_opened, votes, park_id)
     VALUES %L
     RETURNING *;`,
     arrangeRidesData(lookedUpRides)
