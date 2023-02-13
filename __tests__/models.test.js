@@ -73,7 +73,7 @@ describe("10. updateParkById()", () => {
       })
       .then(({ rows: [park] }) => {
         expect(park).toHaveProperty("annual_attendance", 0);
-        expect(park).toHaveProperty("name", "Chessington Earth of Experiences");
+        expect(park).toHaveProperty("park_name", "Chessington Earth of Experiences");
       });
   });
   it("updates the database with the correct information", () => {
