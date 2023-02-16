@@ -26,7 +26,8 @@ function seed() {
     })
     .then(() => {
       return insertParks();
-    }).then(insertedParks => {
+    })
+    .then(insertedParks => {
       const lookedUpRides = prepareRidesData(rides, insertedParks);
 
       return insertRides(lookedUpRides);
